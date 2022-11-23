@@ -54,12 +54,6 @@ def token_required(f):
         return f(current_user, *args, **kwargs)
     return decorator
 
-# def check_user_on_streak(current_user, mood_created, latest_mood_submitted):
-#     date_diff = mood_created.date() - latest_mood_submitted.created.date()
-#     if current_user.streak >= 1 and date_diff.days == 1:
-#         return True
-#     return False
-
 class User(Resource):
     def get(self):
         '''Gets all users when GET method at /user endpoint'''
