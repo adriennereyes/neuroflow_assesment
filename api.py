@@ -148,19 +148,20 @@ class Mood(Resource):
             return make_response(jsonify({"message": "Rating must be 0 - 5"}), 400)
         
         latest_mood_submitted = Moods.query.filter_by(user_id=self.id).order_by(Moods.created.desc()).first()
-        
-        mood_created = datetime.utcnow() + timedelta(days=6)
-        date_diff = mood_created.date() - latest_mood_submitted.created.date()
-        if date_diff.days == 0:
-            return make_response(jsonify({"message": "Mood rating was already submitted today"}), 400)
-        elif self.streak >= 1 and date_diff.days == 1:
-            streak = self.streak + 1
-        else:
-            streak = 1
+        mood_created = datetime.utcnow()
+        if latest_mood_submitted != None:
+            date_diff = mood_created.date() - latest_mood_submitted.created.date()
+            if date_diff.days == 0:
+                return make_response(jsonify({"message": "Mood rating was already submitted today"}), 400)
+            elif self.streak >= 1 and date_diff.days == 1:
+                streak = self.streak + 1
+            else:
+                streak = 1
 
         new_mood = Moods(rating=data['rating'], created=mood_created, user_id=self.id)
         db.session.add(new_mood)
         db.session.commit()
+        streak = 1
         self.streak = streak
         db.session.commit()
         return make_response(jsonify({"message": "Mood rating submitted"}), 201)
