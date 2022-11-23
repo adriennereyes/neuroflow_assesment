@@ -7,8 +7,11 @@ from functools import wraps
 import jwt
 from datetime import datetime, timedelta
 
+# Initialize Flask and Api
 app = Flask(__name__)
 api = Api(app)
+
+# Set config variables and Initialize SQLAlchemy
 base_dir = os.path.abspath(os.path.dirname(__file__))
 app.config["SECRET_KEY"] = "02440123a4e4da8adbbb69fecbaa1c53"
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + os.path.join(base_dir, "neuroflow.db")
@@ -16,6 +19,7 @@ app.config["SQLALCHEMY_TRACK_MODIFCATIONS"] = False
 db = SQLAlchemy(app)
 
 class Users(db.Model):
+    '''Table for storing users'''
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(25), nullable=False, unique=True)
     password = db.Column(db.String(80), nullable=False, unique=True)
@@ -26,6 +30,7 @@ class Users(db.Model):
         return f'User: {self.username}'
 
 class Moods(db.Model):
+    '''Table for storing user's moods'''
     id = db.Column(db.Integer, primary_key=True)
     rating = db.Column(db.Integer, nullable=False)
     created = db.Column(db.DateTime, nullable=False)
