@@ -4,14 +4,12 @@
 1. Creating virtual environment
     * ```python3 -m venv venv```
 <br>
+
 2. Activating virtual environment
-    * On Windows, run:
-<br>
-```venv\Scripts\activate.bat```
-<br>
+   * On Windows, run:
+   ```venv\Scripts\activate.bat```
     * On Unix or MacOS, run:
-<br>
-```source ./venv/bin/activate```
+   ```source ./venv/bin/activate```
 
 ---
 
